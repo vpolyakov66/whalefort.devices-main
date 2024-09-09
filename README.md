@@ -12,7 +12,8 @@
 5) В package.json запустить скрипт "sync_android"
 6) Открыть Android Studio - в ней открыть папку android в папке "front-mobile"
 7) Выполнить следующую команду:
-![alt text](image.png)
+![image](https://github.com/user-attachments/assets/101503a7-9dd1-4052-b607-25ca75b8f6d7)
+
 Apk готовый поставить себе на телефон android или эмулятор в Android Studio.
 
 *Как собрать server*
