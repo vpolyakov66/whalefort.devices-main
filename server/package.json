@@ -9,7 +9,7 @@
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
     "run:prod": "node ./dist/src/index.js",
     "r:p": "npm run run:prod",
-    "db:dump": "docker exec server_database_1 sh -c 'mongodump --archive -u dale -p rootpassword' > ./dump.gz",
+    "db:dump": "docker exec server-database-1 sh -c \"mongodump --archive -u dale -p rootpassword\" > ./dump.gz",
     "db:dump:restore": "docker exec -i server-database-1 sh -c \"mongorestore --archive -u dale -p rootpassword\" < ./dump.gz",
     "docker:compose:up": "docker-compose up -d",
     "docker:build:artd": "docker build -t artd/0.0.0 ."

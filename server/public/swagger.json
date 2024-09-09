@@ -1,4 +1,5 @@
 {
+	"openapi": "3.0.0",
 	"components": {
 		"examples": {},
 		"headers": {},
@@ -6,98 +7,342 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"DeviceInterface": {
+			"SystemRole": {
+				"enum": [
+					"root",
+					"admin",
+					"user"
+				],
+				"type": "string"
+			},
+			"Pick_UserIdentityInterface.Exclude_keyofUserIdentityInterface.guid__": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"scopeList": {
+						"items": {
+							"$ref": "#/components/schemas/SystemRole"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_UserIdentityInterface.guid_": {
+				"$ref": "#/components/schemas/Pick_UserIdentityInterface.Exclude_keyofUserIdentityInterface.guid__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UserIdentityInterface": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"guid": {
+						"type": "string"
+					},
+					"scopeList": {
+						"items": {
+							"$ref": "#/components/schemas/SystemRole"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IJWTPayload": {
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					},
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"accessToken",
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IRole": {
 				"properties": {
 					"guid": {
 						"type": "string"
 					},
-					"name": {
-						"type": "string"
-					},
-					"serialNumber": {
-						"type": "string"
-					},
-					"icon": {
-						"type": "string"
-					},
-					"symlinkedWith": {
-						"type": "string"
-					},
-					"physicLocation": {
-						"properties": {
-							"y": {
-								"type": "number",
-								"format": "double"
-							},
-							"x": {
-								"type": "number",
-								"format": "double"
-							},
-							"info": {
-								"type": "string"
-							}
+					"deviceList": {
+						"items": {
+							"type": "string"
 						},
-						"required": [
-							"y",
-							"x",
-							"info"
-						],
-						"type": "object"
+						"type": "array"
+					},
+					"userList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"adminList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ownerList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"alias": {
+						"type": "string"
+					},
+					"organizationGuid": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"guid",
-					"name",
+					"deviceList",
+					"userList",
+					"adminList",
+					"ownerList",
+					"alias",
+					"organizationGuid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_IRole.Exclude_keyofIRole.guid__": {
+				"properties": {
+					"deviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"userList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"adminList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ownerList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"alias": {
+						"type": "string"
+					},
+					"organizationGuid": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"deviceList",
+					"userList",
+					"adminList",
+					"ownerList",
+					"alias",
+					"organizationGuid"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IRole.guid_": {
+				"$ref": "#/components/schemas/Pick_IRole.Exclude_keyofIRole.guid__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"SystemErrorCode": {
+				"enum": [
+					404,
+					400,
+					500,
+					409
+				],
+				"type": "number"
+			},
+			"ISystemError": {
+				"properties": {
+					"error": {
+						"$ref": "#/components/schemas/SystemErrorCode"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"error",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"QueueInterface": {
+				"properties": {
+					"userInQueueList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"guid": {
+						"type": "string"
+					},
+					"inHandUserId": {
+						"type": "string",
+						"nullable": true,
+						"description": "В руках пользователя по guid"
+					},
+					"lastChangeUtc": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Время последнего изменения - взятие в руки или сдача устройства"
+					}
+				},
+				"required": [
+					"userInQueueList",
+					"guid",
+					"inHandUserId",
+					"lastChangeUtc"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IProfile": {
+				"properties": {
+					"guid": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"secondName": {
+						"type": "string"
+					},
+					"link": {
+						"type": "string",
+						"description": "Ссылка на мессенджер"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Номер телефона для связи"
+					},
+					"symlinkedWith": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Связан с организацией | GUID ORG"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Активен ли профиль"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"favouriteDevices": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"guid",
+					"firstName",
+					"secondName",
+					"link",
+					"phone",
 					"symlinkedWith"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_DeviceInterface.Exclude_keyofDeviceInterface.guid__": {
+			"ProfileCreateInterfaceRequestModel": {
 				"properties": {
-					"name": {
+					"firstName": {
 						"type": "string"
 					},
-					"serialNumber": {
+					"secondName": {
 						"type": "string"
 					},
-					"icon": {
-						"type": "string"
+					"link": {
+						"type": "string",
+						"description": "Ссылка на мессенджер"
 					},
-					"symlinkedWith": {
-						"type": "string"
+					"phone": {
+						"type": "string",
+						"description": "Номер телефона для связи"
 					},
-					"physicLocation": {
-						"properties": {
-							"y": {
-								"type": "number",
-								"format": "double"
-							},
-							"x": {
-								"type": "number",
-								"format": "double"
-							},
-							"info": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"y",
-							"x",
-							"info"
-						],
-						"type": "object"
+					"guid": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"name",
-					"symlinkedWith"
+					"firstName",
+					"secondName",
+					"link",
+					"phone",
+					"guid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_ProfileCreateInterfaceRequestModel.Exclude_keyofProfileCreateInterfaceRequestModel.guid__": {
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"secondName": {
+						"type": "string"
+					},
+					"link": {
+						"type": "string",
+						"description": "Ссылка на мессенджер"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Номер телефона для связи"
+					}
+				},
+				"required": [
+					"firstName",
+					"secondName",
+					"link",
+					"phone"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"Omit_DeviceInterface.guid_": {
-				"$ref": "#/components/schemas/Pick_DeviceInterface.Exclude_keyofDeviceInterface.guid__",
+			"Omit_ProfileCreateInterfaceRequestModel.guid_": {
+				"$ref": "#/components/schemas/Pick_ProfileCreateInterfaceRequestModel.Exclude_keyofProfileCreateInterfaceRequestModel.guid__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
 			"NodeType": {
@@ -159,39 +404,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"SystemErrorCode": {
-				"enum": [
-					404,
-					400,
-					500,
-					409
-				],
-				"type": "number"
-			},
-			"ISystemError": {
-				"properties": {
-					"error": {
-						"$ref": "#/components/schemas/SystemErrorCode"
-					},
-					"description": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"error",
-					"description"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"SystemRole": {
-				"enum": [
-					"root",
-					"admin",
-					"user"
-				],
-				"type": "string"
 			},
 			"CreateBuildingRequestModel": {
 				"properties": {
@@ -397,64 +609,19 @@
 				],
 				"type": "number"
 			},
-			"SmartShelfInterface": {
-				"properties": {
-					"state": {
-						"$ref": "#/components/schemas/ShelfState"
-					},
-					"verifyDeviceGuid": {
-						"type": "string"
-					},
-					"deviceList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"unverifiedDeviceList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"guid": {
-						"type": "string"
-					},
-					"apiKey": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"state",
-					"deviceList",
-					"unverifiedDeviceList",
-					"guid",
-					"apiKey"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ObjectId": {
-				"type": "string"
-			},
-			"Required_any_": {
-				"properties": {},
-				"type": "object",
-				"description": "Make all properties in T required"
-			},
 			"Pick_SmartShelfInterface.Exclude_keyofSmartShelfInterface.guid-or-apiKey__": {
 				"properties": {
-					"state": {
-						"$ref": "#/components/schemas/ShelfState"
-					},
-					"verifyDeviceGuid": {
-						"type": "string"
-					},
 					"deviceList": {
 						"items": {
 							"type": "string"
 						},
 						"type": "array"
+					},
+					"state": {
+						"$ref": "#/components/schemas/ShelfState"
+					},
+					"verifyDeviceGuid": {
+						"type": "string"
 					},
 					"unverifiedDeviceList": {
 						"items": {
@@ -464,8 +631,8 @@
 					}
 				},
 				"required": [
-					"state",
 					"deviceList",
+					"state",
 					"unverifiedDeviceList"
 				],
 				"type": "object",
@@ -475,310 +642,99 @@
 				"$ref": "#/components/schemas/Pick_SmartShelfInterface.Exclude_keyofSmartShelfInterface.guid-or-apiKey__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
-			"IProfile": {
+			"DeviceInterface": {
 				"properties": {
 					"guid": {
 						"type": "string"
 					},
-					"firstName": {
+					"name": {
 						"type": "string"
 					},
-					"secondName": {
+					"serialNumber": {
 						"type": "string"
 					},
-					"link": {
-						"type": "string",
-						"description": "Ссылка на мессенджер"
-					},
-					"phone": {
-						"type": "string",
-						"description": "Номер телефона для связи"
+					"icon": {
+						"type": "string"
 					},
 					"symlinkedWith": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array",
-						"description": "Связан с организацией | GUID ORG"
-					},
-					"isActive": {
-						"type": "boolean",
-						"description": "Активен ли профиль"
-					},
-					"picture": {
 						"type": "string"
 					},
-					"favouriteDevices": {
-						"items": {
-							"type": "string"
+					"physicLocation": {
+						"properties": {
+							"y": {
+								"type": "number",
+								"format": "double"
+							},
+							"x": {
+								"type": "number",
+								"format": "double"
+							},
+							"info": {
+								"type": "string"
+							}
 						},
-						"type": "array"
+						"required": [
+							"y",
+							"x",
+							"info"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
 					"guid",
-					"firstName",
-					"secondName",
-					"link",
-					"phone",
+					"name",
 					"symlinkedWith"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ProfileCreateInterfaceRequestModel": {
+			"Pick_DeviceInterface.Exclude_keyofDeviceInterface.guid__": {
 				"properties": {
-					"firstName": {
+					"name": {
 						"type": "string"
 					},
-					"secondName": {
+					"serialNumber": {
 						"type": "string"
 					},
-					"link": {
-						"type": "string",
-						"description": "Ссылка на мессенджер"
-					},
-					"phone": {
-						"type": "string",
-						"description": "Номер телефона для связи"
-					},
-					"guid": {
+					"icon": {
 						"type": "string"
+					},
+					"symlinkedWith": {
+						"type": "string"
+					},
+					"physicLocation": {
+						"properties": {
+							"y": {
+								"type": "number",
+								"format": "double"
+							},
+							"x": {
+								"type": "number",
+								"format": "double"
+							},
+							"info": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"y",
+							"x",
+							"info"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
-					"firstName",
-					"secondName",
-					"link",
-					"phone",
-					"guid"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Pick_ProfileCreateInterfaceRequestModel.Exclude_keyofProfileCreateInterfaceRequestModel.guid__": {
-				"properties": {
-					"firstName": {
-						"type": "string"
-					},
-					"secondName": {
-						"type": "string"
-					},
-					"link": {
-						"type": "string",
-						"description": "Ссылка на мессенджер"
-					},
-					"phone": {
-						"type": "string",
-						"description": "Номер телефона для связи"
-					}
-				},
-				"required": [
-					"firstName",
-					"secondName",
-					"link",
-					"phone"
+					"name",
+					"symlinkedWith"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"Omit_ProfileCreateInterfaceRequestModel.guid_": {
-				"$ref": "#/components/schemas/Pick_ProfileCreateInterfaceRequestModel.Exclude_keyofProfileCreateInterfaceRequestModel.guid__",
+			"Omit_DeviceInterface.guid_": {
+				"$ref": "#/components/schemas/Pick_DeviceInterface.Exclude_keyofDeviceInterface.guid__",
 				"description": "Construct a type with the properties of T except for those in type K."
-			},
-			"IRole": {
-				"properties": {
-					"guid": {
-						"type": "string"
-					},
-					"deviceList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"userList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"adminList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"ownerList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"alias": {
-						"type": "string"
-					},
-					"organizationGuid": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"guid",
-					"deviceList",
-					"userList",
-					"adminList",
-					"ownerList",
-					"alias",
-					"organizationGuid"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"QueueInterface": {
-				"properties": {
-					"userInQueueList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"guid": {
-						"type": "string"
-					},
-					"inHandUserId": {
-						"type": "string",
-						"nullable": true,
-						"description": "В руках пользователя по guid"
-					},
-					"lastChangeUtc": {
-						"type": "string",
-						"format": "date-time",
-						"description": "Время последнего изменения - взятие в руки или сдача устройства"
-					}
-				},
-				"required": [
-					"userInQueueList",
-					"guid",
-					"inHandUserId",
-					"lastChangeUtc"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Pick_IRole.Exclude_keyofIRole.guid__": {
-				"properties": {
-					"deviceList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"userList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"adminList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"ownerList": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"alias": {
-						"type": "string"
-					},
-					"organizationGuid": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"deviceList",
-					"userList",
-					"adminList",
-					"ownerList",
-					"alias",
-					"organizationGuid"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"Omit_IRole.guid_": {
-				"$ref": "#/components/schemas/Pick_IRole.Exclude_keyofIRole.guid__",
-				"description": "Construct a type with the properties of T except for those in type K."
-			},
-			"Pick_UserIdentityInterface.Exclude_keyofUserIdentityInterface.guid__": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"scopeList": {
-						"items": {
-							"$ref": "#/components/schemas/SystemRole"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"Omit_UserIdentityInterface.guid_": {
-				"$ref": "#/components/schemas/Pick_UserIdentityInterface.Exclude_keyofUserIdentityInterface.guid__",
-				"description": "Construct a type with the properties of T except for those in type K."
-			},
-			"UserIdentityInterface": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"guid": {
-						"type": "string"
-					},
-					"scopeList": {
-						"items": {
-							"$ref": "#/components/schemas/SystemRole"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IJWTPayload": {
-				"properties": {
-					"accessToken": {
-						"type": "string"
-					},
-					"refreshToken": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"accessToken",
-					"refreshToken"
-				],
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -796,25 +752,315 @@
 		"version": "0.0.0",
 		"contact": {}
 	},
-	"openapi": "3.0.0",
 	"paths": {
-		"/api/v1/device/create": {
-			"post": {
-				"operationId": "CreateDevice",
+		"/api/v1/identity/available?{username}": {
+			"get": {
+				"operationId": "AvailableUsername",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "username",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/identity/register/admin": {
+			"post": {
+				"operationId": "RegisterIdentity",
+				"responses": {
+					"200": {
+						"description": "Created",
+						"content": {
+							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DeviceInterface"
+									"properties": {
+										"guid": {
+											"type": "string"
+										},
+										"refreshToken": {
+											"type": "string"
+										},
+										"accessToken": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"guid",
+										"refreshToken",
+										"accessToken"
+									],
+									"type": "object"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Device"
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_UserIdentityInterface.guid_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/register/reserve": {
+			"post": {
+				"operationId": "ReserveUser",
+				"responses": {
+					"200": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"guid": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"guid"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [
+					{
+						"jwt": [
+							"root",
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"symlinkGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"symlinkGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/register/user": {
+			"post": {
+				"operationId": "RegisterUserOverGuid",
+				"responses": {
+					"200": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"guid": {
+											"type": "string"
+										},
+										"refreshToken": {
+											"type": "string"
+										},
+										"accessToken": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"guid",
+										"refreshToken",
+										"accessToken"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserIdentityInterface"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/refresh": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IJWTPayload"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"authToken": {
+										"type": "string"
+									},
+									"refreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"authToken",
+									"refreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Чупапи-муняню",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IJWTPayload"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Неправильный пароль"
+					},
+					"404": {
+						"description": "Пользователь не найден в БД"
+					}
+				},
+				"description": "Авторизация пользователя",
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Данные от УЗ",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_UserIdentityInterface.guid_",
+								"description": "Данные от УЗ"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/secure": {
+			"get": {
+				"operationId": "IsAdminSecured",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [
+					{
+						"api": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/role/create": {
+			"post": {
+				"operationId": "CreateRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IRole"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
 				],
 				"security": [
 					{
@@ -827,16 +1073,97 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Omit_DeviceInterface.guid_"
+								"$ref": "#/components/schemas/Omit_IRole.guid_"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/api/v1/device/list": {
+		"/api/v1/role/edit": {
+			"patch": {
+				"operationId": "EditRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IRole"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IRole"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/role/all": {
 			"get": {
-				"operationId": "GetAllDevice",
+				"operationId": "GetAllRoles",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ISystemError"
+										},
+										{
+											"items": {
+												"$ref": "#/components/schemas/IRole"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "orgGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/role/info": {
+			"get": {
+				"operationId": "GetRole",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -844,7 +1171,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/DeviceInterface"
+										"$ref": "#/components/schemas/IRole"
 									},
 									"type": "array"
 								}
@@ -853,7 +1180,586 @@
 					}
 				},
 				"tags": [
-					"Device"
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/queue/join": {
+			"post": {
+				"operationId": "StandInQueue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/take": {
+			"post": {
+				"operationId": "TakeDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/takeoff": {
+			"post": {
+				"operationId": "LaydownDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/cancel": {
+			"post": {
+				"operationId": "CancelQueue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/meta": {
+			"get": {
+				"operationId": "GetQueryInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "deviceGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/queue/myqueue": {
+			"get": {
+				"operationId": "GetAllUserQueue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/QueueInterface"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/queue/drop": {
+			"post": {
+				"operationId": "DropQuery",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": [
+							"root",
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/create": {
+			"post": {
+				"operationId": "CreateProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProfileCreateInterfaceRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/update": {
+			"post": {
+				"operationId": "UpdateProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_ProfileCreateInterfaceRequestModel.guid_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/identifyMyself": {
+			"get": {
+				"operationId": "GetProfileFromRequest",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/profile/identity": {
+			"get": {
+				"operationId": "GetProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "guid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/profile/avatar": {
+			"post": {
+				"operationId": "SetAvatar",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"b64": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"b64"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/favourite": {
+			"post": {
+				"operationId": "AddFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"guid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"guid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "RemoveFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"guid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"guid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/employee": {
+			"get": {
+				"operationId": "GetAllEmployees",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ISystemError"
+										},
+										{
+											"items": {
+												"$ref": "#/components/schemas/IRole"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
 				],
 				"security": [
 					{
@@ -1484,10 +2390,7 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"items": {},
-									"type": "array"
-								}
+								"schema": {}
 							}
 						}
 					}
@@ -1709,27 +2612,7 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/SmartShelfInterface"
-										},
-										{
-											"properties": {
-												"_id": {
-													"$ref": "#/components/schemas/ObjectId"
-												}
-											},
-											"required": [
-												"_id"
-											],
-											"type": "object"
-										},
-										{
-											"$ref": "#/components/schemas/Required_any_"
-										}
-									]
-								}
+								"schema": {}
 							}
 						}
 					}
@@ -1821,23 +2704,23 @@
 				}
 			}
 		},
-		"/api/v1/profile/create": {
+		"/api/v1/device/create": {
 			"post": {
-				"operationId": "CreateProfile",
+				"operationId": "CreateDevice",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/IProfile"
+									"$ref": "#/components/schemas/DeviceInterface"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Profile"
+					"Device"
 				],
 				"security": [
 					{
@@ -1850,267 +2733,33 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ProfileCreateInterfaceRequestModel"
+								"$ref": "#/components/schemas/Omit_DeviceInterface.guid_"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/api/v1/profile/update": {
-			"post": {
-				"operationId": "UpdateProfile",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IProfile"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Profile"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Omit_ProfileCreateInterfaceRequestModel.guid_"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/profile/identifyMyself": {
+		"/api/v1/device/list": {
 			"get": {
-				"operationId": "GetProfileFromRequest",
+				"operationId": "GetAllDevice",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/IProfile"
+									"items": {
+										"$ref": "#/components/schemas/DeviceInterface"
+									},
+									"type": "array"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Profile"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/api/v1/profile/identity": {
-			"get": {
-				"operationId": "GetProfile",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IProfile"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Profile"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "guid",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/api/v1/profile/avatar": {
-			"post": {
-				"operationId": "SetAvatar",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IProfile"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Profile"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"b64": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"b64"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/profile/favourite": {
-			"post": {
-				"operationId": "AddFavourite",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IProfile"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Profile"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"guid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"guid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "RemoveFavourite",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IProfile"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Profile"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"guid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"guid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/profile/employee": {
-			"get": {
-				"operationId": "GetAllEmployees",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ISystemError"
-										},
-										{
-											"items": {
-												"$ref": "#/components/schemas/IRole"
-											},
-											"type": "array"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Profile"
+					"Device"
 				],
 				"security": [
 					{
@@ -2127,735 +2776,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/api/v1/queue/join": {
-			"post": {
-				"operationId": "StandInQueue",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/QueueInterface"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"deviceGuid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"deviceGuid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/queue/take": {
-			"post": {
-				"operationId": "TakeDevice",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/QueueInterface"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"deviceGuid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"deviceGuid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/queue/takeoff": {
-			"post": {
-				"operationId": "LaydownDevice",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/QueueInterface"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"deviceGuid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"deviceGuid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/queue/cancel": {
-			"post": {
-				"operationId": "CancelQueue",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/QueueInterface"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"deviceGuid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"deviceGuid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/queue/meta": {
-			"get": {
-				"operationId": "GetQueryInfo",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/QueueInterface"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "deviceGuid",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/api/v1/queue/myqueue": {
-			"get": {
-				"operationId": "GetAllUserQueue",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/QueueInterface"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/api/v1/queue/drop": {
-			"post": {
-				"operationId": "DropQuery",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Queue"
-				],
-				"security": [
-					{
-						"jwt": [
-							"root",
-							"admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"deviceGuid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"deviceGuid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/role/create": {
-			"post": {
-				"operationId": "CreateRole",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IRole"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Role"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Omit_IRole.guid_"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/role/edit": {
-			"patch": {
-				"operationId": "EditRole",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IRole"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Role"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/IRole"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/role/all": {
-			"get": {
-				"operationId": "GetAllRoles",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ISystemError"
-										},
-										{
-											"items": {
-												"$ref": "#/components/schemas/IRole"
-											},
-											"type": "array"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Role"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "orgGuid",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/api/v1/role/info": {
-			"get": {
-				"operationId": "GetRole",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/IRole"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Role"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/api/v1/identity/available?{username}": {
-			"get": {
-				"operationId": "AvailableUsername",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"type": "boolean"
-										},
-										{
-											"type": "string",
-											"enum": [
-												"Unknown error"
-											]
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Identity"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "username",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/api/v1/identity/register/admin": {
-			"post": {
-				"operationId": "RegisterIdentity",
-				"responses": {
-					"200": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"guid": {
-											"type": "string"
-										},
-										"refreshToken": {
-											"type": "string"
-										},
-										"accessToken": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"guid",
-										"refreshToken",
-										"accessToken"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Identity"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Omit_UserIdentityInterface.guid_"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/identity/register/reserve": {
-			"post": {
-				"operationId": "ReserveUser",
-				"responses": {
-					"200": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"guid": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"guid"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Identity"
-				],
-				"security": [
-					{
-						"jwt": [
-							"root",
-							"admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"symlinkGuid": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"symlinkGuid"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/identity/register/user": {
-			"post": {
-				"operationId": "RegisterUserOverGuid",
-				"responses": {
-					"200": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"guid": {
-											"type": "string"
-										},
-										"refreshToken": {
-											"type": "string"
-										},
-										"accessToken": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"guid",
-										"refreshToken",
-										"accessToken"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Identity"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UserIdentityInterface"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/identity/refresh": {
-			"post": {
-				"operationId": "RefreshToken",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IJWTPayload"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Identity"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"authToken": {
-										"type": "string"
-									},
-									"refreshToken": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"authToken",
-									"refreshToken"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/identity/login": {
-			"post": {
-				"operationId": "Login",
-				"responses": {
-					"200": {
-						"description": "Чупапи-муняню",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IJWTPayload"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Неправильный пароль"
-					},
-					"404": {
-						"description": "Пользователь не найден в БД"
-					}
-				},
-				"description": "Авторизация пользователя",
-				"tags": [
-					"Identity"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Данные от УЗ",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Omit_UserIdentityInterface.guid_",
-								"description": "Данные от УЗ"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/identity/secure": {
-			"get": {
-				"operationId": "IsAdminSecured",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "boolean"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Identity"
-				],
-				"security": [
-					{
-						"api": []
-					}
-				],
-				"parameters": []
 			}
 		}
 	},

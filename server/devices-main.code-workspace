@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../whalefort.devices-main/front"
+		},
+		{
+			"path": "../../../whalefort.devices-main/front-mobile"
+		},
+		{
+			"path": "../../../whalefort.devices-main/server"
+		}
+	],
+	"settings": {}
+}
