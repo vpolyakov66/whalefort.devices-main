@@ -11,7 +11,6 @@
         "test": "ng test",
         "lint": "ng lint",
         "dev_build": "ng build --configuration development",
-        "": "Не знаю как у вас линуксоидов, я не хочу JAVA_HOME менять поэтому не собирается, после всех предварительных иду сразу в андроид студию",
         "build_android": "npx cap build android",
         "update_android": "npx cap update android",
         "sync_android": "npx cap sync android",
