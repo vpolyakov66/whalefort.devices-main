@@ -1,0 +1,25 @@
+<ng-container *ngIf="userProfile | async as profile" style="display: flex; flex-flow: row">
+    <tui-avatar
+        *ngIf="!profile.picture"
+        tuiDropdownHover
+        #dropdown="tuiDropdown"
+        [tuiDropdown]="template ?? content"
+        [autoColor]="true"
+        [text]="(profile.secondName ?? '') + ' ' + (profile.firstName ?? '').trim()"
+    >
+    </tui-avatar>
+    <tui-avatar
+        *ngIf="profile.picture"
+        tuiDropdownHover
+        [tuiDropdown]="template ?? content"
+        #dropdown="tuiDropdown"
+        [autoColor]="true"
+        [avatarUrl]="profile.picture"
+    >
+    </tui-avatar>
+    <ng-template #content>
+        <span>{{profile.secondName??''}} {{profile.firstName??''}}</span>
+    </ng-template>
+</ng-container>
+
+

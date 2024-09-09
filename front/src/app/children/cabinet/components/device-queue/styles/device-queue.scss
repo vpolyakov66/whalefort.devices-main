@@ -1,0 +1,26 @@
+.queue-flatten{
+    display: flex;
+    max-width: 100%;
+    min-width: 20em;
+    overflow-y: scroll;
+    flex-flow: row;
+}
+
+.queue-normal{
+    display: flex;
+    max-width: 24em;
+    min-width: 20em;
+    flex-flow: column;
+
+    &_left{
+        display: flex;
+        flex-flow: column;
+    }
+
+    &_right{
+
+        &_queue{
+            overflow-y: scroll;
+        }
+    }
+}

@@ -1,0 +1,98 @@
+<div>
+    <div class="tui-container tui-container_fullwidth">
+        <div class="tui-row">
+            <span class="tui-text_h5">Управление ролями</span>
+        </div>
+        <div class="tui-row tui-space_vertical-2">
+            <button tuiButton icon="tuiIconPlus" (click)="createRole()">Добавить роль</button>
+        </div>
+        <div class="tui-row" *tuiLet="roleList$ | async as roleList">
+            <table tuiTable
+                   *ngIf="roleList?.length ?? false; else noRoles"
+                   [columns]="columnsKeyList"
+                   style="width: 100%"
+            >
+                <thead>
+                <tr tuiThGroup>
+                    <th *tuiHead="'alias'" tuiTh [resizable]="true">
+                        Наименование
+                    </th>
+                    <th *tuiHead="'ownerList'" tuiTh [resizable]="true">
+                        Владельцов
+                    </th>
+                    <th *tuiHead="'adminList'" tuiTh [resizable]="true">
+                        Администраторов
+                    </th>
+                    <th *tuiHead="'userList'" tuiTh [resizable]="true">
+                        Пользователей
+                    </th>
+                    <th *tuiHead="'devices'" tuiTh [resizable]="true">
+                        Устройств
+                    </th>
+                    <th
+                        *tuiHead="'actions'"
+                        tuiTh
+                        [sorter]="null"
+                    ></th>
+                </tr>
+                </thead>
+                <tbody tuiTbody [data]="roleList!">
+                <tr *ngFor="let role of roleList" tuiTr>
+                    <td *tuiCell="'alias'" tuiTd>
+                        <tui-badge size="m" [status]="'success'" [value]="role.alias"></tui-badge>
+                    </td>
+                    <td *tuiCell="'ownerList'" tuiTd>
+                        {{role.ownerList?.length ?? 0}}
+                    </td>
+                    <td *tuiCell="'adminList'" tuiTd>
+                        {{role.adminList?.length?? 0}}
+                    </td>
+                    <td *tuiCell="'userList'" tuiTd>
+                        {{role.userList?.length?? 0}}
+                    </td>
+                    <td *tuiCell="'devices'" tuiTd>
+                        {{role.deviceList?.length ?? 0}}
+                    </td>
+                    <td *tuiCell="'actions'" tuiTd >
+<!--                        <button tuiIconButton size="s" *ngIf="isRoleOwner(role.id)" icon="tuiIconTrash" title="Удалить" shape="rounded" appearance="flat" (click)="deleteRole(role.guid)"></button>-->
+                        <button tuiIconButton size="s" *ngIf="isRoleOwner(role)" icon="tuiIconTrash" title="Удалить" shape="rounded" appearance="flat"></button>
+                        <button tuiIconButton size="s" *ngIf="isRoleOwner(role)" icon="tuiIconDraft" title="Редактировать" shape="rounded" appearance="flat" (click)="editRole(role)"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #noRoles>
+    <table tuiTable
+           [columns]="columnsKeyList"
+    >
+        <thead>
+        <tr tuiThGroup>
+            <th tuiTh [resizable]="true">
+                Наименование
+            </th>
+            <th tuiTh [resizable]="true">
+                Владельцы
+            </th>
+            <th tuiTh [resizable]="true">
+                Администраторов
+            </th>
+            <th tuiTh [resizable]="true">
+                Участников
+            </th>
+            <th tuiTh [resizable]="true">
+                Устройств
+            </th>
+        </tr>
+        </thead>
+        <tbody tuiTbody>
+        <tr>
+            Нет данных. Добавьте новую роль или попросите Вашего коллегу добавить Вас в уже существующую.
+        </tr>
+        </tbody>
+    </table>
+</ng-template>

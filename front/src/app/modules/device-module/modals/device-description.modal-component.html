@@ -1,0 +1,145 @@
+<div class="tui-container tui-container_fullwidth" *tuiLet="device$ | async as device">
+    <div class="tui-row">
+        <span class="tui-text_h3">{{device!.name}}</span>
+    </div>
+    <div class="tui-row tui-space_top-2">
+        SN: {{device!.serialNumber ?? 'Неопределен'}}
+    </div>
+    <br class="tui-row"/>
+    <ng-container *tuiLet="queue$ | async as queue">
+        <div class="tui-row tui-space_vertical-2" >
+            <span class="tui-text_h4">Очередь</span>
+        </div>
+        <div class="tui-row" >
+            <span class="tui-text">Сейчас в очереди на устройство: {{(queue?.userInQueueList ?? []).length}}</span>
+        </div>
+        <div class="tui-row tui-row_align_center" style="gap: 0.5em">
+            <span class="tui-text">Сейчас в руках у</span>
+            <art-avatar *ngIf="queue?.inHandUserId" [userGuid]="queue?.inHandUserId!"></art-avatar>
+            <span *ngIf="!queue?.inHandUserId">никого</span>
+        </div>
+        <div class="tui-row tui-space_top-1" *tuiLet="profile$ | async as profile">
+            <ng-container *ngTemplateOutlet="!queue?.userInQueueList?.includes(profile!.guid) ? join : null"></ng-container>
+            <ng-container *ngTemplateOutlet="queue?.userInQueueList?.includes(profile!.guid) && queue?.inHandUserId !== profile?.guid ? cancel : null"></ng-container>
+            <ng-container *ngTemplateOutlet="queue?.userInQueueList?.indexOf(profile!.guid) === 0 && queue?.inHandUserId !== profile?.guid ? take : null"></ng-container>
+            <ng-container *ngTemplateOutlet="queue?.userInQueueList?.indexOf(profile!.guid) === 0 && queue?.inHandUserId === profile?.guid ? laydown : null"></ng-container>
+
+            <ng-template #join>
+                <button tuiButton appearance="flat" (click)="joinQueue()">Встать в очередь</button>
+            </ng-template>
+            <ng-template #take>
+                <button tuiButton appearance="flat" (click)="takeQueue()">Взять устройство</button>
+            </ng-template>
+            <ng-template #cancel>
+                <button tuiButton appearance="flat" (click)="cancelQueue()">Выйти из очереди</button>
+            </ng-template>
+            <ng-template #laydown>
+                <button tuiButton appearance="flat" (click)="laydownQueue()">Вернуть устройство</button>
+            </ng-template>
+
+        </div>
+    </ng-container>
+    <br class="tui-row"/>
+    <div class="tui-row tui-space_vertical-2">
+        <span class="tui-text_h4 ">Роли</span>
+    </div>
+    <div class="tui-row" *tuiLet="roleList$ | async as roleList">
+        <ng-container *ngIf="roleList?.length??0 > 0; else noRoles">
+            <tui-badged-content
+                [contentTop]="null"
+                *ngFor="let role of roleList"
+                size="m"
+            >
+                <tui-badge  size="l" [status]="'success'" [value]="role.alias">
+                </tui-badge>
+
+            </tui-badged-content>
+        </ng-container>
+
+        <ng-template #noRoles>
+            <span class="tui-text_h6">На этом устройстве ещё нет ролей</span>
+        </ng-template>
+
+    </div>
+    <br/>
+    <div class="tui-row tui-space_vertical-2">
+        <span class="tui-text_h4">Действия</span>
+    </div>
+    <div class="tui-row tui-space_top-1">
+        <button tuiButton appearance="flat" (click)="openRoleDialog()">Добавить в роль</button>
+        <button tuiButton appearance="flat" *ifAdmin (click)="openTransactionDialog()">Транзакция</button>
+    </div>
+</div>
+
+
+<ng-template #addRole let-obs>
+    <div class="tui-container tui-container_fullwidth">
+        <div class="tui-row">
+            <span class="tui-text_h3">Выберите роль</span>
+        </div>
+            <tui-select
+                *tuiLet="availableRoleList$ | async as items"
+                [tuiTextfieldLabelOutside]="true"
+                class="tui-row tui-space_vertical-5"
+                [valueContent]="items ? stringifyRoles(items) : loading"
+                [formControl]="roleUUID"
+
+            >
+                <ng-template tuiDataList>
+                    <tui-data-list *ngIf="items; else loading">
+                        <button
+                            *ngFor="let item of items"
+                            tuiOption
+                            [value]="item.guid"
+                        >
+                            {{ item.alias }}
+                        </button>
+                    </tui-data-list>
+                </ng-template>
+                <ng-template #loading>
+                    <tui-loader class="tui-space_vertical-2 loader"></tui-loader>
+                </ng-template>
+            </tui-select>
+        <div class="tui-row">
+            <button tuiButton [disabled]="!roleUUID.valid" (click)="insertRole(obs)">Добавить</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #transaction let-obs>
+    <div class="tui-container tui-container_fullwidth">
+        <div class="tui-row">
+            <span class="tui-text_h3">Выберите точку назначения</span>
+        </div>
+        <tui-select
+            *tuiLet="getTreenodeList() as items"
+            [tuiTextfieldLabelOutside]="true"
+            class="tui-row tui-space_vertical-5"
+            [valueContent]="items ? stringifyTree(items) : loading"
+            [formControl]="transactionTree"
+
+        >
+            <ng-template tuiDataList>
+                <tui-data-list *ngIf="items; else loading">
+                    <button
+                        *ngFor="let item of items"
+                        tuiOption
+                        [value]="item.guid"
+                    >
+                        {{ item.alias }}
+                    </button>
+                </tui-data-list>
+            </ng-template>
+            <ng-template #loading>
+                <tui-loader class="tui-space_vertical-2 loader"></tui-loader>
+            </ng-template>
+        </tui-select>
+        <div class="tui-row">
+            <button tuiButton [disabled]="!transactionTree.valid" (click)="beginTransaction(obs)">Добавить</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #badge>
+    <div style="background-color: var(--tui-success-bg)">
+        <tui-svg style="color: var(--tui-error-fill)" [src]="'tuiIconClose'"></tui-svg>
+    </div>
+</ng-template>

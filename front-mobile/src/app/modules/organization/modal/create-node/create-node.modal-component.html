@@ -1,0 +1,97 @@
+<div>
+    <ng-container *ngTemplateOutlet="resolveFunction()"></ng-container>
+</div>
+
+<ng-template #building>
+    <form class="tui-form" [formGroup]="universalForm">
+        <span class="tui-form__header">Добавление здания</span>
+        <div class="tui-form__row">
+            <tui-input formControlName="name">
+                Наименование здания
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <tui-input formControlName="address">
+                Адресс здания
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="address"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton class="tui-form__button" (click)="compileModel()">Создать</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #department>
+    <form class="tui-form" [formGroup]="universalForm">
+        <span class="tui-form__header">Добавление отдела</span>
+        <div class="tui-form__row">
+            <tui-input formControlName="name">
+                Наименование отдела
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton class="tui-form__button" (click)="compileModel()">Создать</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #shelf>
+    <form class="tui-form" [formGroup]="universalForm">
+        <span class="tui-form__header">Добавление хранилища</span>
+        <div class="tui-form__row">
+            <tui-input formControlName="name">
+                Наименование
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <h3 class="tui-form__header">Опции хранилища</h3>
+        <div
+            tuiGroup
+            class="tui-form__row"
+            [adaptive]="true"
+            [collapsed]="true"
+        >
+            <tui-radio-block
+                contentAlign="right"
+                formControlName="isSmartShelf"
+                [item]="false"
+                size="l"
+            >
+                On-employee-trust
+            </tui-radio-block>
+            <tui-radio-block
+                contentAlign="right"
+                formControlName="isSmartShelf"
+                [item]="true"
+                size="l"
+            >
+                External verify
+            </tui-radio-block>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton class="tui-form__button" (click)="compileModel()">Создать</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #org></ng-template>

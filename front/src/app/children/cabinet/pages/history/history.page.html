@@ -1,0 +1,113 @@
+<div class="tui-container tui-container_fullwidth">
+    <div class="tui-row">
+        <span class="tui-text_h5">История событий</span>
+    </div>
+    <div class="tui-space_left-2 tui-space_top-3">
+        <div class="tui-form">
+        <span class="tui-form__header">
+            Фильтры
+        </span>
+            <div class="tui-form__row tui-form__row_multi-fields">
+                <tui-multi-select class="tui-form__multi-field"
+                                  *tuiLet="deviceList$ | async as items"
+                                  [formControl]="deviceControl"
+                                  [tuiTextfieldLabelOutside]="true"
+                                  [stringify]="(stringifyDevice$ | async)!"
+                                  (searchChange)="onDeviceSearch($event)"
+                >
+                    Список устройств
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        tuiMultiSelectGroup
+                        [items]="items"
+                        [itemContent]="(stringifyDevice$ | async)!"
+                    ></tui-data-list-wrapper>
+                </tui-multi-select>
+                <tui-multi-select class="tui-form__multi-field"
+                                  *tuiLet="typeList$ | async as items"
+                                  [formControl]="typeControl"
+                                  [tuiTextfieldLabelOutside]="true"
+                                  [stringify]="(stringifyType$ | async)!"
+                                  (searchChange)="onTypeSearch($event)"
+                >
+                    Типы событий
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        tuiMultiSelectGroup
+                        [items]="items"
+                        [itemContent]="(stringifyType$ | async)!"
+                    ></tui-data-list-wrapper>
+                </tui-multi-select>
+            </div>
+            <div class="tui-form__row tui-form__row_multi-fields">
+                <tui-multi-select class="tui-form__multi-field"
+                                  *tuiLet="profileList$ | async as items"
+                                  [formControl]="profileControl"
+                                  [tuiTextfieldLabelOutside]="true"
+                                  [stringify]="(stringifyProfile$ | async)!"
+                                  (searchChange)="onProfileSearch($event)"
+                >
+                    Выберите интересующего сотрудника
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        tuiMultiSelectGroup
+                        [items]="items"
+                        [itemContent]="(stringifyProfile$ | async)!"
+                    ></tui-data-list-wrapper>
+                </tui-multi-select>
+                <tui-input-date-range class="tui-form__multi-field"
+                                      [formControl]="dateRange"
+                                      [items]="periods"
+                >
+                    Выберите даты
+                </tui-input-date-range>
+            </div>
+            <div class="tui-form__buttons tui-form__buttons_align_end">
+                <button tuiButton class="tui-form__button" (click)="onSearch()">Поиск</button>
+            </div>
+        </div>
+    </div>
+    <div class="tui-row tui-space_top-3">
+            <table tuiTable style="width: 100%;"
+                   [columns]="columns"
+                   abIntersectionObserver
+            >
+                <thead tuiThead>
+                <tr tuiThGroup>
+                    <th tuiTh style="width: 22em" *tuiHead="'type'" [sticky]="true">
+                        Тип
+                    </th>
+                    <th tuiTh *tuiHead="'object'" [sticky]="true">
+                        Объект
+                    </th>
+                    <th tuiTh *tuiHead="'subject'" [sticky]="true">
+                        Инициатор
+                    </th>
+                    <th tuiTh *tuiHead="'createdAt'" [sticky]="true">
+                        timestamp
+                    </th>
+                </tr>
+                </thead>
+                <tbody tuiTbody>
+                <tr tuiTr *ngFor="let item of (data$ | async); trackBy: trackBy; let isLast = last" (abIntersectionObservee)="observe(isLast, $event)">
+                    <td tuiTd *tuiCell="'type'">
+                        <tui-badge size="l" [value]="(stringifyType$ | async)!(item.type)" status="info"></tui-badge>
+                    </td>
+                    <td tuiTd *tuiCell="'object'">
+                        {{(stringifyDevice$ | async)!(item.object)}}
+                    </td>
+                    <td tuiTd *tuiCell="'subject'">
+                        <div>
+                            <art-avatar [userGuid]="item.subject"></art-avatar>
+                            <span>{{(stringifyProfile$ | async)!(item.subject)}}</span>
+                        </div>
+
+                    </td>
+                    <td tuiTd *tuiCell="'createdAt'">
+                        <span>{{item.createdAt}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+</div>

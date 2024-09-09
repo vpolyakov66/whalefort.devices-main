@@ -1,0 +1,19 @@
+<div>
+    <div class="tui-container tui-container_fullwidth">
+        <div class="tui-row">
+            <span class="tui-text_h5">Активные очереди</span>
+        </div>
+        <ng-container *tuiLet="queueList$ | async as queueList">
+            <ng-container *ngIf="queueList?.length; else noActiveQueue">
+                <div class="queue-plate">
+                    <art-device-queue *ngFor="let queue of queueList; trackBy: trackBy" [deviceGuid]="queue.guid"></art-device-queue>
+                </div>
+            </ng-container>
+            <ng-template #noActiveQueue>
+                <div class="tui-row">
+                    <span>У вас нет активных очередей</span>
+                </div>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>

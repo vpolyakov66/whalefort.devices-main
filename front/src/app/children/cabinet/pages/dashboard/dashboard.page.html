@@ -1,0 +1,11 @@
+<div *tuiLet="getFavoriteDeviceList | async as favoriteDeviceList ">
+    <span class="tui-text_h4">Главная</span>
+    <br/>
+    <span class="tui-text_h5">Избранные устройства</span>
+
+    <div *ngIf="favoriteDeviceList?.length" class="tui-row tui-space_top-4 device-container">
+        <art-device-plate class="tui-space_vertical_5" *ngFor="let favoriteDevice of favoriteDeviceList" [device]="favoriteDevice"></art-device-plate>
+    </div>
+    <br>
+    <span>Текущие очереди</span>
+</div>

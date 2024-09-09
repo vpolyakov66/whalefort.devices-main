@@ -1,0 +1,33 @@
+<ng-container *ngIf="(isRoutingProcess$ | async) === false; else loader">
+    <ion-header>
+        <ion-toolbar mode="ios" *tuiLet="{
+            pageTitle: pageTitle$ | async,
+            leftButton: leftButton$ | async,
+            rightButton: rightButton$ | async
+        } as header">
+            <ng-container *ngIf="header.leftButton?.isShow">
+                <ion-buttons slot="start">
+                    <ng-container *ngTemplateOutlet="(header.leftButton?.buttonType === headerButtonTypeEnum.back && backButton) || null context:{$implicit: header.leftButton?.navigate}"></ng-container>
+                </ion-buttons>
+            </ng-container>
+            <ion-title *ngIf="header.pageTitle as pageTitle">{{ pageTitle }}</ion-title>
+            <ng-container *ngIf="header.rightButton?.isShow">
+                <ion-buttons slot="end">
+                    <ng-container *ngTemplateOutlet="(header.rightButton?.buttonType === headerButtonTypeEnum.back && backButton) || null context:{$implicit: header.rightButton?.navigate}"></ng-container>
+                </ion-buttons>
+            </ng-container>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content style="background: #FFFFFF">
+        <ng-content></ng-content>
+    </ion-content>
+</ng-container>
+
+<ng-template #loader>
+    <tui-loader [size]="'xxl'" class="tui-space_vertical-2 loader"></tui-loader>
+</ng-template>
+
+<ng-template #backButton let-navigate>
+    <ion-back-button text='' color="primary" [defaultHref]="navigate ?? '../'"></ion-back-button>
+</ng-template>
+

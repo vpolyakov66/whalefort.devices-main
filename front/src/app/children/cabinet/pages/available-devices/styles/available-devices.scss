@@ -1,0 +1,13 @@
+.device-container{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 2.75em;
+}
+
+.device-desc{
+    min-height: 100px;
+    max-height: 200px;
+    min-width: 200px;
+    max-width: 400px;
+    margin: 2em;
+}

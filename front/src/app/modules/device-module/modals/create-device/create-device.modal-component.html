@@ -1,0 +1,46 @@
+<div class="tui-container tui-container_fullwidth">
+    <div class="tui-form">
+        <span class="tui-form__header">
+            Добавление устройства
+        </span>
+        <div class="tui-form__row">
+            <tui-input [formControl]="name">
+                Наименование устройства
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <tui-input [formControl]="serialNumber">
+                Серийный номер
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="serialNumber"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+
+        <div class="tui-form__row">
+            <tui-input [formControl]="physicLocation">
+                Месторасположение
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="physicLocation"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton (click)="createDevice()" [disabled]="!name.valid">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,56 @@
+<div class="tui-container tui-container_fullwidth">
+    <div class="tui-form">
+        <span class="tui-form__header">
+            Заполните данные своего профиля
+        </span>
+        <div class="tui-form__row">
+            <tui-input [formControl]="firstName">
+                Имя
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="firstName"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <tui-input [formControl]="secondName">
+                Фамилия
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="secondName"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <tui-input [formControl]="phone">
+                Телефон
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="phone"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <label tuiLabel="Никнейм для связи">
+            <tui-input [formControl]="link">
+                Никнейм в Telegram/Rocket.Chat
+                <input tuiTextfield placeholder="@yourusername">
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                [formControl]="link"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+            </label>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton [disabled]="!(firstName.valid && secondName.valid && link.valid && phone.valid)" (click)="patch()">Сохранить</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+{
+  "entryFile": "src/index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/routes/**/*.controller.ts"],
+  "spec": {
+    "outputDirectory": "public",
+    "specVersion": 3,
+    "tags": [
+      {
+        "name": "Identity",
+        "description": "Авторизация/Регистрация/Авторизация пользователя"
+      }
+    ],
+    "securityDefinitions": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "access_token",
+        "in": "header",
+        "flow": "implicit",
+        "scopes": {
+
+        }
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "public",
+    "authenticationModule": "./src/authentication/auth.ts",
+    "iocModule": "./src/lib/di.ts"
+  }
+}

@@ -1,0 +1,2873 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"DeviceInterface": {
+				"properties": {
+					"guid": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"serialNumber": {
+						"type": "string"
+					},
+					"icon": {
+						"type": "string"
+					},
+					"symlinkedWith": {
+						"type": "string"
+					},
+					"physicLocation": {
+						"properties": {
+							"y": {
+								"type": "number",
+								"format": "double"
+							},
+							"x": {
+								"type": "number",
+								"format": "double"
+							},
+							"info": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"y",
+							"x",
+							"info"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"guid",
+					"name",
+					"symlinkedWith"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_DeviceInterface.Exclude_keyofDeviceInterface.guid__": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"serialNumber": {
+						"type": "string"
+					},
+					"icon": {
+						"type": "string"
+					},
+					"symlinkedWith": {
+						"type": "string"
+					},
+					"physicLocation": {
+						"properties": {
+							"y": {
+								"type": "number",
+								"format": "double"
+							},
+							"x": {
+								"type": "number",
+								"format": "double"
+							},
+							"info": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"y",
+							"x",
+							"info"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"name",
+					"symlinkedWith"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_DeviceInterface.guid_": {
+				"$ref": "#/components/schemas/Pick_DeviceInterface.Exclude_keyofDeviceInterface.guid__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"NodeType": {
+				"enum": [
+					"root",
+					"unit",
+					"building",
+					"shelf"
+				],
+				"type": "string"
+			},
+			"IAbstractNode": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/NodeType"
+					},
+					"guid": {
+						"type": "string"
+					},
+					"parent": {
+						"type": "string",
+						"nullable": true
+					},
+					"children": {
+						"items": {
+							"$ref": "#/components/schemas/IAbstractNode"
+						},
+						"type": "array"
+					},
+					"leafList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Конечные устройства организации"
+					},
+					"comment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"type",
+					"guid",
+					"parent",
+					"children",
+					"leafList"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ICreateOrganizationRequestModel": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SystemErrorCode": {
+				"enum": [
+					404,
+					400,
+					500,
+					409
+				],
+				"type": "number"
+			},
+			"ISystemError": {
+				"properties": {
+					"error": {
+						"$ref": "#/components/schemas/SystemErrorCode"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"error",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SystemRole": {
+				"enum": [
+					"root",
+					"admin",
+					"user"
+				],
+				"type": "string"
+			},
+			"CreateBuildingRequestModel": {
+				"properties": {
+					"organizationGuid": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"administratorList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"organizationGuid",
+					"name",
+					"administratorList"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUnitRequestModel": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"administratorList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"organizationGuid": {
+						"type": "string"
+					},
+					"buildingGuid": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"administratorList",
+					"organizationGuid",
+					"buildingGuid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateShelfRequestModel": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"organizationGuid": {
+						"type": "string"
+					},
+					"buildingGuid": {
+						"type": "string"
+					},
+					"unitGuid": {
+						"type": "string"
+					},
+					"isSmartShelf": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"organizationGuid",
+					"buildingGuid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiKeyInterface": {
+				"properties": {
+					"createdBy": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"value": {
+						"type": "string"
+					},
+					"symlinkedTo": {
+						"type": "string"
+					},
+					"guid": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"createdBy",
+					"createdAt",
+					"value",
+					"symlinkedTo",
+					"guid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HistoryEventType": {
+				"enum": [
+					"deviceTake",
+					"deviceTakeoff",
+					"deviceQueue",
+					"deviceQueueCancel",
+					"deviceQueueCancelForce"
+				],
+				"type": "string"
+			},
+			"EventInterface": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/HistoryEventType"
+					},
+					"object": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"type",
+					"object",
+					"subject",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TransactionRequestModel": {
+				"properties": {
+					"orgGuid": {
+						"type": "string"
+					},
+					"deviceGuid": {
+						"type": "string"
+					},
+					"from": {
+						"properties": {
+							"shelf": {
+								"type": "string"
+							},
+							"unit": {
+								"type": "string"
+							},
+							"building": {
+								"type": "string"
+							}
+						},
+						"type": "object"
+					},
+					"to": {
+						"properties": {
+							"shelf": {
+								"type": "string"
+							},
+							"unit": {
+								"type": "string"
+							},
+							"building": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"unit",
+							"building"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"orgGuid",
+					"deviceGuid",
+					"to"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ShelfState": {
+				"enum": [
+					0,
+					1,
+					2,
+					3,
+					4,
+					5,
+					6
+				],
+				"type": "number"
+			},
+			"SmartShelfInterface": {
+				"properties": {
+					"state": {
+						"$ref": "#/components/schemas/ShelfState"
+					},
+					"verifyDeviceGuid": {
+						"type": "string"
+					},
+					"deviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"unverifiedDeviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"guid": {
+						"type": "string"
+					},
+					"apiKey": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"state",
+					"deviceList",
+					"unverifiedDeviceList",
+					"guid",
+					"apiKey"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ObjectId": {
+				"type": "string"
+			},
+			"Required_any_": {
+				"properties": {},
+				"type": "object",
+				"description": "Make all properties in T required"
+			},
+			"Pick_SmartShelfInterface.Exclude_keyofSmartShelfInterface.guid-or-apiKey__": {
+				"properties": {
+					"state": {
+						"$ref": "#/components/schemas/ShelfState"
+					},
+					"verifyDeviceGuid": {
+						"type": "string"
+					},
+					"deviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"unverifiedDeviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"state",
+					"deviceList",
+					"unverifiedDeviceList"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_SmartShelfInterface.guid-or-apiKey_": {
+				"$ref": "#/components/schemas/Pick_SmartShelfInterface.Exclude_keyofSmartShelfInterface.guid-or-apiKey__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"IProfile": {
+				"properties": {
+					"guid": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"secondName": {
+						"type": "string"
+					},
+					"link": {
+						"type": "string",
+						"description": "Ссылка на мессенджер"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Номер телефона для связи"
+					},
+					"symlinkedWith": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "Связан с организацией | GUID ORG"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Активен ли профиль"
+					},
+					"picture": {
+						"type": "string"
+					},
+					"favouriteDevices": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"guid",
+					"firstName",
+					"secondName",
+					"link",
+					"phone",
+					"symlinkedWith"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProfileCreateInterfaceRequestModel": {
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"secondName": {
+						"type": "string"
+					},
+					"link": {
+						"type": "string",
+						"description": "Ссылка на мессенджер"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Номер телефона для связи"
+					},
+					"guid": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"firstName",
+					"secondName",
+					"link",
+					"phone",
+					"guid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_ProfileCreateInterfaceRequestModel.Exclude_keyofProfileCreateInterfaceRequestModel.guid__": {
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"secondName": {
+						"type": "string"
+					},
+					"link": {
+						"type": "string",
+						"description": "Ссылка на мессенджер"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Номер телефона для связи"
+					}
+				},
+				"required": [
+					"firstName",
+					"secondName",
+					"link",
+					"phone"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_ProfileCreateInterfaceRequestModel.guid_": {
+				"$ref": "#/components/schemas/Pick_ProfileCreateInterfaceRequestModel.Exclude_keyofProfileCreateInterfaceRequestModel.guid__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"IRole": {
+				"properties": {
+					"guid": {
+						"type": "string"
+					},
+					"deviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"userList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"adminList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ownerList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"alias": {
+						"type": "string"
+					},
+					"organizationGuid": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"guid",
+					"deviceList",
+					"userList",
+					"adminList",
+					"ownerList",
+					"alias",
+					"organizationGuid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"QueueInterface": {
+				"properties": {
+					"userInQueueList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"guid": {
+						"type": "string"
+					},
+					"inHandUserId": {
+						"type": "string",
+						"nullable": true,
+						"description": "В руках пользователя по guid"
+					},
+					"lastChangeUtc": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Время последнего изменения - взятие в руки или сдача устройства"
+					}
+				},
+				"required": [
+					"userInQueueList",
+					"guid",
+					"inHandUserId",
+					"lastChangeUtc"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_IRole.Exclude_keyofIRole.guid__": {
+				"properties": {
+					"deviceList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"userList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"adminList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ownerList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"alias": {
+						"type": "string"
+					},
+					"organizationGuid": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"deviceList",
+					"userList",
+					"adminList",
+					"ownerList",
+					"alias",
+					"organizationGuid"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IRole.guid_": {
+				"$ref": "#/components/schemas/Pick_IRole.Exclude_keyofIRole.guid__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"Pick_UserIdentityInterface.Exclude_keyofUserIdentityInterface.guid__": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"scopeList": {
+						"items": {
+							"$ref": "#/components/schemas/SystemRole"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_UserIdentityInterface.guid_": {
+				"$ref": "#/components/schemas/Pick_UserIdentityInterface.Exclude_keyofUserIdentityInterface.guid__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UserIdentityInterface": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"guid": {
+						"type": "string"
+					},
+					"scopeList": {
+						"items": {
+							"$ref": "#/components/schemas/SystemRole"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IJWTPayload": {
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					},
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"accessToken",
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"api_key": {
+				"type": "apiKey",
+				"name": "access_token",
+				"in": "header",
+				"flow": "implicit",
+				"scopes": {}
+			}
+		}
+	},
+	"info": {
+		"title": "server",
+		"version": "0.0.0",
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api/v1/device/create": {
+			"post": {
+				"operationId": "CreateDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeviceInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Device"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_DeviceInterface.guid_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/device/list": {
+			"get": {
+				"operationId": "GetAllDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/DeviceInterface"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Device"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "orgGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/organization/create/organization": {
+			"post": {
+				"operationId": "CreateOrganization",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IAbstractNode"
+								}
+							}
+						}
+					}
+				},
+				"description": "Создание организации",
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ICreateOrganizationRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/get/organization": {
+			"get": {
+				"operationId": "GetOrganization",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IAbstractNode"
+										},
+										{
+											"$ref": "#/components/schemas/ISystemError"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "guid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/organization/listen": {
+			"get": {
+				"operationId": "Listen",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/organization/externalListner": {
+			"get": {
+				"operationId": "ListenExternal",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"api": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/organization/system-role": {
+			"get": {
+				"operationId": "GetSystemRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SystemRole"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/organization/delete/building": {
+			"delete": {
+				"operationId": "DeleteBuilding",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": [
+							"admin",
+							"root"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"buildingGuid": {
+										"type": "string"
+									},
+									"organizationGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"buildingGuid",
+									"organizationGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/create/building": {
+			"post": {
+				"operationId": "CreateBuilding",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IAbstractNode"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBuildingRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/delete/unit": {
+			"delete": {
+				"operationId": "DeleteUnit",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": [
+							"admin",
+							"root"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"unitGuid": {
+										"type": "string"
+									},
+									"buildingGuid": {
+										"type": "string"
+									},
+									"organizationGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"unitGuid",
+									"buildingGuid",
+									"organizationGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/create/unit": {
+			"post": {
+				"operationId": "CreateUnit",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IAbstractNode"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUnitRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/delete/shelf": {
+			"delete": {
+				"operationId": "DeleteShelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": [
+							"admin",
+							"root"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"shelfGuid": {
+										"type": "string"
+									},
+									"unitGuid": {
+										"type": "string"
+									},
+									"buildingGuid": {
+										"type": "string"
+									},
+									"organizationGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"shelfGuid",
+									"unitGuid",
+									"buildingGuid",
+									"organizationGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/create/shelf": {
+			"post": {
+				"operationId": "CreateShelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IAbstractNode"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateShelfRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/keys/shelf": {
+			"post": {
+				"operationId": "GenerateKey",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiKeyInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"orgGuid": {
+										"type": "string"
+									},
+									"shelfGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"orgGuid",
+									"shelfGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/history": {
+			"get": {
+				"operationId": "GetHistory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/EventInterface"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "organizationGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "deviceGuid",
+						"required": false,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					{
+						"in": "query",
+						"name": "type",
+						"required": false,
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/components/schemas/HistoryEventType"
+							}
+						}
+					},
+					{
+						"in": "query",
+						"name": "from",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "to",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "get",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "skip",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "by",
+						"required": false,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/organization/device/transaction": {
+			"post": {
+				"operationId": "TransactionDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IAbstractNode"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": [
+							"root",
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TransactionRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/enclave/all": {
+			"get": {
+				"operationId": "GetAllShelf",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "orgGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/organization/enclave/open": {
+			"post": {
+				"operationId": "OpenEnclave",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"reason": {
+										"$ref": "#/components/schemas/ShelfState"
+									},
+									"orgGuid": {
+										"type": "string"
+									},
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"reason",
+									"orgGuid",
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/enclave/register": {
+			"post": {
+				"operationId": "RegisterDeviceEnclave",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"orgGuid": {
+										"type": "string"
+									},
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"orgGuid",
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/enclave/registerCancel": {
+			"post": {
+				"operationId": "RegisterDeviceCancelEnclave",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"orgGuid": {
+										"type": "string"
+									},
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"orgGuid",
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/enclave/verify": {
+			"post": {
+				"operationId": "VerifyEnclave",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Уведомить о том, что устройство подключено к ГУ верификации",
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"orgGuid": {
+										"type": "string"
+									},
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"orgGuid",
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/shelf/state": {
+			"get": {
+				"operationId": "GetShelfState",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/SmartShelfInterface"
+										},
+										{
+											"properties": {
+												"_id": {
+													"$ref": "#/components/schemas/ObjectId"
+												}
+											},
+											"required": [
+												"_id"
+											],
+											"type": "object"
+										},
+										{
+											"$ref": "#/components/schemas/Required_any_"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"api": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/organization/shelf/change": {
+			"post": {
+				"operationId": "ChangeShelfState",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"api": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_SmartShelfInterface.guid-or-apiKey_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/organization/shelf/verified": {
+			"post": {
+				"operationId": "VerifyDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [
+					{
+						"api": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/create": {
+			"post": {
+				"operationId": "CreateProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProfileCreateInterfaceRequestModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/update": {
+			"post": {
+				"operationId": "UpdateProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_ProfileCreateInterfaceRequestModel.guid_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/identifyMyself": {
+			"get": {
+				"operationId": "GetProfileFromRequest",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/profile/identity": {
+			"get": {
+				"operationId": "GetProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "guid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/profile/avatar": {
+			"post": {
+				"operationId": "SetAvatar",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"b64": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"b64"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/favourite": {
+			"post": {
+				"operationId": "AddFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"guid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"guid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "RemoveFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IProfile"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"guid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"guid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/profile/employee": {
+			"get": {
+				"operationId": "GetAllEmployees",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ISystemError"
+										},
+										{
+											"items": {
+												"$ref": "#/components/schemas/IRole"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Profile"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "orgGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/queue/join": {
+			"post": {
+				"operationId": "StandInQueue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/take": {
+			"post": {
+				"operationId": "TakeDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/takeoff": {
+			"post": {
+				"operationId": "LaydownDevice",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/cancel": {
+			"post": {
+				"operationId": "CancelQueue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/queue/meta": {
+			"get": {
+				"operationId": "GetQueryInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/QueueInterface"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "deviceGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/queue/myqueue": {
+			"get": {
+				"operationId": "GetAllUserQueue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/QueueInterface"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/queue/drop": {
+			"post": {
+				"operationId": "DropQuery",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Queue"
+				],
+				"security": [
+					{
+						"jwt": [
+							"root",
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"deviceGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"deviceGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/role/create": {
+			"post": {
+				"operationId": "CreateRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IRole"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_IRole.guid_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/role/edit": {
+			"patch": {
+				"operationId": "EditRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IRole"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IRole"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/role/all": {
+			"get": {
+				"operationId": "GetAllRoles",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ISystemError"
+										},
+										{
+											"items": {
+												"$ref": "#/components/schemas/IRole"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "orgGuid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/role/info": {
+			"get": {
+				"operationId": "GetRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IRole"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/v1/identity/available?{username}": {
+			"get": {
+				"operationId": "AvailableUsername",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "boolean"
+										},
+										{
+											"type": "string",
+											"enum": [
+												"Unknown error"
+											]
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "username",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/identity/register/admin": {
+			"post": {
+				"operationId": "RegisterIdentity",
+				"responses": {
+					"200": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"guid": {
+											"type": "string"
+										},
+										"refreshToken": {
+											"type": "string"
+										},
+										"accessToken": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"guid",
+										"refreshToken",
+										"accessToken"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_UserIdentityInterface.guid_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/register/reserve": {
+			"post": {
+				"operationId": "ReserveUser",
+				"responses": {
+					"200": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"guid": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"guid"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [
+					{
+						"jwt": [
+							"root",
+							"admin"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"symlinkGuid": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"symlinkGuid"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/register/user": {
+			"post": {
+				"operationId": "RegisterUserOverGuid",
+				"responses": {
+					"200": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"guid": {
+											"type": "string"
+										},
+										"refreshToken": {
+											"type": "string"
+										},
+										"accessToken": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"guid",
+										"refreshToken",
+										"accessToken"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserIdentityInterface"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/refresh": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IJWTPayload"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"authToken": {
+										"type": "string"
+									},
+									"refreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"authToken",
+									"refreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Чупапи-муняню",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IJWTPayload"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Неправильный пароль"
+					},
+					"404": {
+						"description": "Пользователь не найден в БД"
+					}
+				},
+				"description": "Авторизация пользователя",
+				"tags": [
+					"Identity"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Данные от УЗ",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Omit_UserIdentityInterface.guid_",
+								"description": "Данные от УЗ"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/identity/secure": {
+			"get": {
+				"operationId": "IsAdminSecured",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Identity"
+				],
+				"security": [
+					{
+						"api": []
+					}
+				],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	],
+	"tags": [
+		{
+			"name": "Identity",
+			"description": "Авторизация/Регистрация/Авторизация пользователя"
+		}
+	]
+}

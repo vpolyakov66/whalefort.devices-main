@@ -1,0 +1,32 @@
+<ng-container *ngTemplateOutlet="isFlatten? flatten : normal">
+
+</ng-container>
+
+<ng-template #flatten>
+    <div class="tui-container queue-flatten">
+        <art-avatar *ngFor="let profile of (profiles$ | async)" [userGuid]="profile.guid"></art-avatar>
+    </div>
+</ng-template>
+<ng-template #normal>
+    <tui-island class="tui-container queue-normal"
+        [hoverable]="true"
+    >
+        <div class="queue-normal_left" *tuiLet="device$ | async as device">
+            <span class="tui-text_h6">
+                    {{device?.name}}
+                </span>
+            <tui-svg [src]="'tuiIconAirplay'"></tui-svg>
+        </div>
+        <div class="tui-container tui-container_fullwidth queue-normal_right" *tuiLet="profiles$ | async as profileList">
+            <div class="tui-row">
+                <span>Сейчас в очереди: {{profileList?.length}}</span>
+            </div>
+            <div class="tui-row">
+                <span>Ваша позиция в очереди: </span>
+            </div>
+            <div class="tui-row tui-avatar-stack">
+                <art-avatar *ngFor="let profile of profileList" [userGuid]="profile.guid"></art-avatar>
+            </div>
+        </div>
+    </tui-island>
+</ng-template>

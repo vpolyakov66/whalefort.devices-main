@@ -1,0 +1,53 @@
+<div class="tui-container tui-container_fullwidth" *tuiLet="(currentStep$ | async)! as step">
+    <div class="tui-row tui-text_h5">Регистрация физической сущности</div>
+    <div class="tui-row" >
+        <tui-stepper [activeItemIndex]="step">
+            <button
+                tuiStep
+                [stepState]="step > 0? 'pass' : 'normal'"
+                [disabled]="step !== 0"
+                icon="tuiIconAlertCircleLarge"
+            >
+                Подготовка
+            </button>
+            <button
+                tuiStep
+                [stepState]="step > 1? 'pass' : 'normal'"
+                [disabled]="step !== 1"
+                icon="tuiIconPackageLarge"
+            >
+                Регистрация
+            </button>
+            <button
+                tuiStep
+                [stepState]="step > 2? 'pass' : 'normal'"
+                [disabled]="step !== 2"
+                icon="tuiIconThumbsUpLarge"
+            >
+                Успех
+            </button>
+        </tui-stepper>
+    </div>
+        <ng-container *ngTemplateOutlet="step === 0 ? prepare : null"></ng-container>
+        <ng-container *ngTemplateOutlet="step === 1 ? register : null"></ng-container>
+        <ng-container *ngTemplateOutlet="step === 2 ? done : null"></ng-container>
+</div>
+
+
+<ng-template #prepare>
+    <div class="tui-row">
+        <button tuiButton (click)="openForAdding()">Открыть хранилище</button>
+        <button tuiButton (click)="completeFlow()">Отмена</button>
+    </div>
+</ng-template>
+<ng-template #register>
+    <div class="tui-row">
+        <button tuiButton appearance="accent" (click)="beginRegister()">Начать</button>
+        <button tuiButton (click)="cancelFlow()">Отмена</button>
+    </div>
+</ng-template>
+<ng-template #done>
+    <div class="tui-row">
+        <button tuiButton (click)="completeFlow()">Выйти</button>
+    </div>
+</ng-template>

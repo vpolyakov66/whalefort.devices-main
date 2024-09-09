@@ -1,0 +1,11 @@
+{
+    "/art": {
+        "target": "http://localhost:5004",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/art": ""
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="header" >
+        <button tuiIconButton icon="tuiIconMenuLarge" tuiActiveZone #parent='tuiActiveZone' (tuiActiveZoneChange)="zoneCtrl($event)" appearance="flat" (click)="openAside()"></button>
+        <span class="tui-text_h1">Artsofte.Devices</span>
+        <art-avatar class="header_avatar" [template]="avatarDropdown"></art-avatar>
+        <ng-template #avatarDropdown let-dropdown>
+            <tui-data-list
+                role="menu"
+                tuiDataListDropdownManager
+            >
+                <button
+                    tuiOption
+                    (click)="logout()"
+                >
+                    Выйти
+                </button>
+            </tui-data-list>
+        </ng-template>
+    </div>
+    <div class="container_fixable">
+        <div class="aside" *ngIf="isAsideOpen$ | async">
+            <art-cabinet-aside (navigated)="openAside()" [tuiActiveZoneParent]="parent" (tuiActiveZoneChange)="zoneCtrl($event)"></art-cabinet-aside>
+        </div>
+        <div class="main-port">
+            <tui-island class="main-port_island">
+                <router-outlet></router-outlet>
+            </tui-island>
+        </div>
+    </div>
+    <div class="foot">
+        <span class="tui-text_h6">ArtChat: @nzernyukov / TG: @axelwhalefort</span>
+    </div>
+</div>

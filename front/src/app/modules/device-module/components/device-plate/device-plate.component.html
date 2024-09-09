@@ -1,0 +1,43 @@
+<tui-island [hoverable]="true" *ngIf="device" class="plate-container" (click)="openDescription()">
+    <div class="tui-container tui-container_fullwidth">
+        <div class="tui-row" style="justify-content: space-between">
+            <div style="display: flex; flex: 8">
+
+                <tui-svg [src]="'tuiIconAirplay'"></tui-svg>
+                <span class="tui-text_h6">
+                    {{device.name}}
+                </span>
+            </div>
+
+            <tui-hosted-dropdown
+                tuiDropdownHover
+                style="flex: 1"
+                [content]="more"
+            >
+                <button size="xs" tuiButton [appearance]="'flat'" tuiHostedDropdownHost>
+                    <tui-svg class="tui-row_temporary" [src]="'tuiIconMoreHorizontal'"></tui-svg>
+                </button>
+
+                <ng-template #more>
+                    <tui-data-list>
+                        <button tuiOption>Занять очередь</button>
+                        <button tuiOption *ifAdmin>Транзакция</button>
+                        <button *ngIf="!(isDislike())" tuiOption (click)="addFavoriteDevice()">В избранные</button>
+                        <button *ngIf="isDislike()" tuiOption (click)="deleteFavoriteDevice()" > Удалить из избранного </button>
+                    </tui-data-list>
+                </ng-template>
+            </tui-hosted-dropdown>
+        </div>
+        <div *ngIf="device.serialNumber" class="tui-row tui-space_top-1">
+            <div>SN: {{device.serialNumber}}</div>
+        </div>
+    </div>
+
+</tui-island>
+
+<ng-template
+    #dropdown
+    let-close="close"
+>
+
+</ng-template>

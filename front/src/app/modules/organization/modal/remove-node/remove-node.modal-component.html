@@ -1,0 +1,70 @@
+<div>
+    <ng-container *ngTemplateOutlet="resolveFunction()"></ng-container>
+</div>
+
+<ng-template #building>
+    <form class="tui-form" [formGroup]="universalForm">
+        <span class="tui-form__header">Вы уверенны что хотите удалить здание?</span>
+        <div class="tui-form__row">
+            <span class="tui-form__field-note" style="color: var(--tui-negative)">Обратите внимание, удаление необратимая операция</span>
+        </div>        <div class="tui-form__row">
+            <tui-input formControlName="name" [readOnly]="true">
+                Наименование здания
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+
+        <div class="tui-form__buttons">
+            <button tuiButton class="tui-form__button" appearance="secondary-destructive" (click)="compileModel()">УДАЛИТЬ</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #department>
+    <form class="tui-form" [formGroup]="universalForm">
+        <span class="tui-form__header">Вы уверены что хотите удалить отдел</span>
+        <div class="tui-form__row">
+            <span class="tui-form__field-note" style="color: var(--tui-negative)">Обратите внимание, удаление необратимая операция</span>
+        </div>        <div class="tui-form__row">
+            <tui-input formControlName="name" [readOnly]="true">
+                Наименование отдела
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton class="tui-form__button" appearance="secondary-destructive" (click)="compileModel()">УДАЛИТЬ</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #shelf>
+    <form class="tui-form" [formGroup]="universalForm">
+        <span class="tui-form__header">Вы уверены что хотите удалить хранилище</span>
+        <div class="tui-form__row">
+            <span class="tui-form__field-note" style="color: var(--tui-negative)">Обратите внимание, удаление необратимая операция</span>
+        </div>
+        <div class="tui-form__row">
+            <tui-input formControlName="name" [readOnly]="true">
+                Наименование
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="name"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__buttons">
+            <button tuiButton class="tui-form__button" appearance="secondary-destructive" (click)="compileModel()">УДАЛИТЬ</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #org></ng-template>

@@ -1,0 +1,28 @@
+<div class="login">
+    <form class="tui-form"  onsubmit="return false" [formGroup]="loginForm">
+        <div class="tui-form__row">
+            <tui-input formControlName="username">
+                Имя пользователя
+                <input tuiTextfield>
+                <span class="tui-required"></span>
+            </tui-input>
+            <tui-error
+                formControlName="username"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row">
+            <tui-input-password formControlName="password">Пароль</tui-input-password>
+            <tui-error
+                formControlName="password"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+    </form>
+    <div class="login__footer">
+        <div class="tui-form__buttons tui-form__buttons_align_center">
+            <button class="tui-form__button" [pseudoHover]="false" [appearance]="'flat'" tuiButton (click)="goToRegister()">Регистрация</button>
+            <button class="tui-form__button" [disabled]="!loginForm.valid" tuiButton (click)="login()">Войти</button>
+        </div>
+    </div>
+</div>

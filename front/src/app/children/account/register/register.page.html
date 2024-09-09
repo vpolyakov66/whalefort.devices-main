@@ -1,0 +1,80 @@
+<div class="tui-container tui-container_fullwidth" style="max-width: 65%; min-width: 25em">
+    <div>
+        <form class="tui-form"  onsubmit="return false">
+            <span class="tui-form__header">Регистрация в системе</span>
+            <ng-container *ngTemplateOutlet="isEmployeeRegister? employee : org"></ng-container>
+        </form>
+    </div>
+</div>
+
+<ng-template #org>
+    <div class="tui-form__row">
+        <tui-input [formControl]="username">
+            Имя пользователя
+            <input tuiTextfield>
+            <span class="tui-required"></span>
+        </tui-input>
+        <tui-error
+            [formControl]="username"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+    </div>
+    <div class="tui-form__row">
+        <tui-input-password [formControl]="password">Пароль</tui-input-password>
+        <tui-error
+            [formControl]="password"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+    </div>
+    <div class="tui-form__row">
+        <tui-input [formControl]="organizationName">
+            Наименование организации
+            <input tuiTextfield>
+            <span class="tui-required"></span>
+        </tui-input>
+        <tui-error
+            [formControl]="organizationName"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+    </div>
+    <div class="tui-form__buttons tui-form__buttons_align_end">
+        <button class="tui-form__button" tuiButton appearance="flat" (click)="switchState($event)">Есть код-приглашение?</button>
+
+        <button class="tui-form__button" tuiButton (click)="registerOrganization()" [disabled]="!(username.valid && password.valid && organizationName.valid)">Регистрация</button>
+    </div>
+</ng-template>
+<ng-template #employee>
+    <div class="tui-form__row">
+        <tui-input [formControl]="username">
+            Имя пользователя
+            <input tuiTextfield>
+            <span class="tui-required"></span>
+        </tui-input>
+        <tui-error
+            [formControl]="username"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+    </div>
+    <div class="tui-form__row">
+        <tui-input-password [formControl]="password">Пароль</tui-input-password>
+        <tui-error
+            [formControl]="password"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+    </div>
+    <div class="tui-form__row">
+        <tui-input [formControl]="guid">
+            Пригласительный код
+            <input tuiTextfield>
+            <span class="tui-required"></span>
+        </tui-input>
+        <tui-error
+            [formControl]="guid"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+    </div>
+    <div class="tui-form__buttons tui-form__buttons_align_end">
+        <button class="tui-form__button" tuiButton appearance="flat" (click)="switchState($event)">Создать организацию?</button>
+        <button class="tui-form__button" tuiButton (click)="registerEmployee()" [disabled]="!(username.valid && password.valid && guid.valid)">Регистрация</button>
+    </div>
+</ng-template>

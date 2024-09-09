@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  database:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dale
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - private
+
+  server:
+    image: artd/0.0.0
+    ports:
+      - 5004:5004
+
+    networks:
+      - private
+
+volumes:
+  mongodb_data_container:
+
+networks:
+  private:
+    driver: bridge

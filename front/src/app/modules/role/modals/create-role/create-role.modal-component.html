@@ -1,0 +1,72 @@
+<form class="tui-form" onsubmit="return false">
+    <span class="tui-form__header">Создание роли</span>
+    <div>
+        <div class="tui-form__row">
+            <tui-input  [formControl]="roleNameControl">
+                Наименование роли
+                <span class="tui-required"></span>
+
+                <input tuiTextfield/>
+            </tui-input>
+            <tui-error
+                [formControl]="roleNameControl"
+                [error]="[] | tuiFieldError | async"
+            ></tui-error>
+        </div>
+        <div class="tui-form__row" *tuiLet="stringifyUser$()| async as stringify">
+            <span class="tui-text_body-l">Владельцы роли</span>
+            <tui-multi-select
+                *tuiLet="userList$ | async as userList"
+                [formControl]="roleOwnerControl"
+                [tuiTextfieldLabelOutside]="true"
+                [stringify]="stringify!"
+                (searchChange)="onSearch($event)"
+            >
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    tuiMultiSelectGroup
+                    [items]="userList"
+                    [itemContent]="stringify!"
+                ></tui-data-list-wrapper>
+            </tui-multi-select>
+        </div>
+        <div class="tui-form__row" *tuiLet="stringifyUser$()| async as stringify">
+            <span class="tui-text_body-l">Администраторы роли</span>
+            <tui-multi-select
+                *tuiLet="userList$ | async as userList"
+                [formControl]="roleAdminControl"
+                [tuiTextfieldLabelOutside]="true"
+                [stringify]="stringify!"
+                (searchChange)="onSearch($event)"
+            >
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    tuiMultiSelectGroup
+                    [items]="userList"
+                    [itemContent]="stringify!"
+                ></tui-data-list-wrapper>
+            </tui-multi-select>
+        </div>
+        <div class="tui-form__row" *tuiLet="stringifyUser$()| async as stringify">
+            <span class="tui-text_body-l">Пользователи роли</span>
+            <tui-multi-select
+                *tuiLet="userList$ | async as userList"
+                [formControl]="roleUserControl"
+                [tuiTextfieldLabelOutside]="true"
+                [stringify]="stringify!"
+                (searchChange)="onSearch($event)"
+            >
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    tuiMultiSelectGroup
+                    [items]="userList"
+                    [itemContent]="stringify!"
+                ></tui-data-list-wrapper>
+            </tui-multi-select>
+        </div>
+    </div>
+    <div class="tui-form__buttons">
+        <button *ngIf="!isEdit" tuiButton class="tui-form__button" (click)="createRole()">Создать</button>
+        <button *ngIf="isEdit" tuiButton class="tui-form__button" (click)="editRole()">Сохранить</button>
+    </div>
+</form>

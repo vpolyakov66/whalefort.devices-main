@@ -1,0 +1,11 @@
+<div class="tui-container tui-container_fullwidth">
+    <div class="tui-row">
+        <span class="tui-text_h5">Доступные устройства</span>
+    </div>
+    <div class="tui-row" *ifAdmin>
+        <button tuiButton appearance="flat" (click)="addDevice()">Добавить устройство</button>
+    </div>
+    <div class="tui-row tui-space_top-4 device-container">
+        <art-device-plate class="tui-space_vertical_5" *ngFor="let device of (deviceList$ | async)" [device]="device"></art-device-plate>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div>
+    <div class="tui-container tui-container_fullwidth">
+        <div class="tui-row">
+            <span class="tui-text_h5">Структура организации</span>
+        </div>
+        <div class="tui-row tui-space_top-6 tui-space_left-4">
+            <tui-tree [tuiTreeController]="true" [value]="treeValue | async" [content]="content" [childrenHandler]="handler">
+
+            </tui-tree>
+        </div>
+        <div class="tui-row tui-space_top-6" *ifAdmin>
+            <span class="tui-text_h5">Действия</span>
+        </div>
+        <div class="tui-row tui-space_top-6 tui-space_left-4" *ifAdmin>
+            <button tuiButton (click)="reserveUser()">Добавить нового сотрудника</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-value let-node="node">
+    <div
+        class="wrapper"
+        [style.opacity]="2.5 / node.level"
+    >
+        <ng-container *ngTemplateOutlet="resolveNodeType(value); context: {$implicit: value}">
+        </ng-container>
+    </div>
+</ng-template>
+
+<ng-template #root let-value>
+    <tui-svg [src]="'tuiIconCodesandboxLarge'"></tui-svg>
+    {{ value?.name }}
+    <tui-svg [src]="'tuiIconPlusSquareLarge'" *ifRoot (click)="addBuilding(value)">
+    </tui-svg>
+</ng-template>
+
+<ng-template #building let-value>
+    <tui-svg
+        [src]="'tuiIconHomeLarge'"
+    ></tui-svg>
+    {{ value?.name }}
+    <tui-svg *ifRoot
+        [src]="'tuiIconPlusSquareLarge'"
+        (click)="addDepartment(value)"
+    >
+    </tui-svg>
+    <tui-svg *ifRoot
+        [src]="'tuiIconMinusCircleLarge'"
+        (click)="removeBuilding(value)"
+    >
+    </tui-svg>
+</ng-template>
+
+<ng-template #department let-value>
+    <tui-svg [src]="'tuiIconUsersLarge'"></tui-svg>
+    {{ value?.name }}
+    <tui-svg [src]="'tuiIconPlusSquareLarge'" *ifRoot (click)="addShelf(value)">
+    </tui-svg>
+    <tui-svg *ifRoot
+        [src]="'tuiIconMinusCircleLarge'"
+        (click)="removeDepartment(value)"
+    >
+    </tui-svg>
+</ng-template>
+
+<ng-template #shelf let-value>
+    <tui-svg
+        [src]="'tuiIconPackageLarge'"
+    ></tui-svg>
+    {{ value?.name }}
+    <tui-svg
+        *ifRoot
+        [src]="'tuiIconMinusCircleLarge'"
+        (click)="removeShelf(value)"
+    >
+    </tui-svg>
+</ng-template>
+
+<ng-template #smartShelf let-value>
+    <tui-svg
+        [src]="'tuiIconKeyLarge'"
+    ></tui-svg>
+    {{ value?.name }}
+    <tui-svg *ifRoot
+        [src]="'tuiIconSettings'"
+        (click)="retrieveKeys(value)"
+    >
+    </tui-svg>
+    <tui-svg *ifRoot
+        [src]="'tuiIconMinusCircleLarge'"
+        (click)="removeShelf(value)"
+    >
+    </tui-svg>
+</ng-template>
