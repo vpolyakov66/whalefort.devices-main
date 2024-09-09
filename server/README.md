@@ -7,7 +7,6 @@
 *Как собрать mobile (android)*
 (Нужно установить Android Studio)
 1) В папке front-mobile установить пакеты с помощью команды "npm i"
-2) В файле front-mobile\src\environments\environment.ts изменить localhost на ip своего компьютера ( апример baseHref: '10.156.71.14:5004')
 3) В package.json запустить скрипт "dev_build"
 4) В package.json запустить скрипт "update_android"
 5) В package.json запустить скрипт "sync_android"
