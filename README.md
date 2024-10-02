@@ -1,12 +1,12 @@
 ## About
 *Как собрать front web*
-1) В папке front установить npm пакеты с помощью команды "npm i"
+1) В папке front установить npm пакеты с помощью команды "npm i --legacy-peer-deps"
 2) В package.json запустить скрипт "start"
 3) Клиент будет на 4200 порте
 
 *Как собрать mobile (android)*
 (Нужно установить Android Studio)
-1) В папке front-mobile установить пакеты с помощью команды "npm i"
+1) В папке front-mobile установить пакеты с помощью команды "npm i --legacy-peer-deps"
 3) В package.json запустить скрипт "dev_build"
 4) В package.json запустить скрипт "update_android"
 5) В package.json запустить скрипт "sync_android"

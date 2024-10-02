@@ -4,26 +4,18 @@ import { OrganizationManagerService } from './organization/organization-manager.
 import { RoleManagerService } from './role/role-manager.service';
 import { QueueManagerService } from './queue/queue-manager.service';
 import { DeviceManagerService } from './device/device-manager.service';
-import { BehaviorSubject, forkJoin, merge, of, skipWhile, switchMap, take, tap } from 'rxjs';
-import { AuthService, UserCredentialsService } from '../modules/httpUserLayer';
+import { BehaviorSubject, forkJoin, of, skipWhile, switchMap, take, tap } from 'rxjs';
+import { AuthService } from '../modules/httpUserLayer';
 import { SmartShelfManagerService } from './smart-shelf/smart-shelf-manager.service';
-import { ServerEventService } from './sse/server-event.service';
-import * as http from 'http';
 import { ProfileQueryService } from '../stores/profile/profile-query.service';
 import { IFProfile } from './profile/interfaces/profile.interface';
 import { SmartShelfStore } from '../stores/smartshelf/smartshelf.store';
-import { OrganizationStoreService } from '../stores/organization/organization-store.service';
-import { ProfileStoreService } from '../stores/profile/profile-store.service';
-import { DeviceStoreService } from '../stores/device/device-store.service';
-import { QueueStoreService } from '../stores/queue/queue-store.service';
-import { RoleStoreService } from '../stores/role/role-store.service';
 import { OrganizationStore } from '../stores/organization/organization.store';
 import { ProfileStore } from '../stores/profile/profile.store';
 import { RoleStore } from '../stores/role/role.store';
 import { QueueStore } from '../stores/queue/queue.store';
 import { DeviceStore } from '../stores/device/device.store';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { ReserveUserModalComponent } from '../modules/organization/modal/reserve-user/reserve-user.modal-component';
 import { TuiDialogService } from '@taiga-ui/core';
 import { ProfileDataModalComponent } from '../modules/organization/modal/profile-data/profile-data.modal-component';
 import { USER_SYSTEM_ROLE } from '../utils/resolution-directive/token/system-role.token';
@@ -40,7 +32,6 @@ export class ProcessingUnitService{
         private _queueMan: QueueManagerService,
         private _deviceMan: DeviceManagerService,
         private _authService: AuthService,
-        private _credentionalService: UserCredentialsService,
         private _shelfMan: SmartShelfManagerService,
         private _shelfStore: SmartShelfStore,
         private _orgStore: OrganizationStore,
