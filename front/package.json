@@ -41,6 +41,7 @@
         "event-source-polyfill": "1.0.31",
         "firebase": "9.22.1",
         "rxjs": "7.5.0",
+        "testcafe": "^3.7.0",
         "tslib": "2.3.0",
         "zone.js": "0.11.4"
     },
