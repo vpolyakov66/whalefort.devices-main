@@ -1,13 +1,9 @@
-stages:
-  - test
-
 test:
-  image: node:16 # Docker-образ с Node.js
-  stage: test
+  image: node:16  # Используем Docker-образ с Node.js
   script:
-    - npm ci # Устанавливаем зависимости
-    - npx testcafe chrome front/tests/*.spec.ts # Запускаем тесты на Chrome
+    - npm ci  # Устанавливаем зависимости
+    - npx testcafe chrome tests/**/*.test.js  # Запускаем тесты TestCafe в Chrome
   only:
-    - merge_requests # Запускать тесты только для merge запросов
-    - main # Запускать тесты на основной ветке (или другой, если нужно)
+    - merge_requests  # Запускать тесты только для merge-запросов
+    - main  # Также запускать на основной ветке
 
